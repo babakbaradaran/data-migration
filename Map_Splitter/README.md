@@ -14,7 +14,7 @@ The script scans the current folder for .xlsx files that:
 - **Are not temp/backup files** (~$)
 - Contain a worksheet named Sheet1
 - Contain the following required columns:
-  - old_job
+  - old_job (Chose this because the column header in most of the mapping files was old_job just to know)
   - PHASE
   - Old Phase Code Description
   - New Phase
