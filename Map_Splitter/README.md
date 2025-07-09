@@ -46,8 +46,8 @@ The script scans the current folder for .xlsx files that:
 
 **Input file**: multi_job_anonymized_corrected.xlsx
 
-| old_job       | PHASE           | Old Phase Code Description | New Phase        | New Phase Description |
-|---------------|------------------|-----------------------------|------------------|------------------------|
+| old_job       | PHASE            | Old Phase Code Description | New Phase        | New Phase Description  |
+|---------------|------------------|----------------------------|------------------|------------------------|
 | OLDJOB-00010  | P0000.00000001   | Phase Desc 1               | N0001.00000001   | New Phase Desc 1       |
 | OLDJOB-00010  | P0000.00000002   | Phase Desc 2               | N0002.00000002   | New Phase Desc 2       |
 | OLDJOB-00011  | P0000.00000001   | Phase Desc 1               | N0001.00000001   | New Phase Desc 1       |
