@@ -7,7 +7,7 @@ current_dir = os.getcwd()
 # Define required columns
 required_columns = ['old_job', 'PHASE', 'Old Phase Code Description', 'New Phase', 'New Phase Description']
 
-# Loop through all Excel files in the directory
+# Loop through all Excel files in the directory usind for loop and os
 for file_name in os.listdir(current_dir):
     if file_name.endswith(".xlsx") and not file_name.startswith("m") and "~$" not in file_name:
         try:
