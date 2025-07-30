@@ -38,7 +38,6 @@ name_mapping_dict = dict(zip(df_name_map["Old Name"].str.strip(), df_name_map["N
 
 # === TRACKING MISSING MAPPINGS ===
 missing_mapping_files = set()
-missing_phase_in_mapping = set()
 incomplete_mapping_values = set()
 
 def map_job_number(job_number):
@@ -65,11 +64,6 @@ def load_mapping_table(job_number, is_type3=False):
         df_map = df_map.groupby("PHASE", as_index=False).first()
 
     mapping_dict = df_map.set_index("PHASE")[required_columns].to_dict(orient="index")
-
-    for code, vals in mapping_dict.items():
-        if not vals.get("New Phase") or not vals.get("New Phase Description"):
-            incomplete_mapping_values.add((job_number, code))
-
     return mapping_dict
 
 def map_phase_values(phase_code, mapping_dict, job_number):
@@ -77,7 +71,7 @@ def map_phase_values(phase_code, mapping_dict, job_number):
     if code in mapping_dict:
         return mapping_dict[code]
     else:
-        missing_phase_in_mapping.add((job_number, code))
+        incomplete_mapping_values.add((job_number, code))
         return {col: None for col in required_columns}
 
 def process_file(file_path):
@@ -131,10 +125,6 @@ def process_file(file_path):
             for code in df_job.get("Phase_Code", []):
                 missing_mapping_files.add((job, code))
             mapping_dicts[job] = {}
-        elif mapping == {}:
-            for code in df_job.get("Phase_Code", []):
-                missing_phase_in_mapping.add((job, code))
-            mapping_dicts[job] = {}
         else:
             mapping_dicts[job] = mapping
 
@@ -182,22 +172,15 @@ for fname in os.listdir(input_folder):
 
 # === FINAL REPORT ===
 df_missing_file = pd.DataFrame(list(missing_mapping_files), columns=["Job_Number", "Phase_Code"])
-df_missing_phase = pd.DataFrame(list(missing_phase_in_mapping), columns=["Job_Number", "Phase_Code"])
 df_incomplete_map = pd.DataFrame(list(incomplete_mapping_values), columns=["Job_Number", "Phase_Code"])
 
 df_missing_file.sort_values(by=["Job_Number", "Phase_Code"], inplace=True)
-df_missing_phase.sort_values(by=["Job_Number", "Phase_Code"], inplace=True)
 df_incomplete_map.sort_values(by=["Job_Number", "Phase_Code"], inplace=True)
 
-jobs_in_missing_file = set(df_missing_file["Job_Number"])
-df_missing_phase_clean = df_missing_phase[~df_missing_phase["Job_Number"].isin(jobs_in_missing_file)]
-
-if not df_missing_file.empty or not df_missing_phase_clean.empty or not df_incomplete_map.empty:
+if not df_missing_file.empty or not df_incomplete_map.empty:
     with pd.ExcelWriter(mapping_issues_file, engine="openpyxl") as writer:
         if not df_missing_file.empty:
             df_missing_file.to_excel(writer, index=False, sheet_name="No Mapping file")
-        if not df_missing_phase_clean.empty:
-            df_missing_phase_clean.to_excel(writer, index=False, sheet_name="Mapping file but missing")
         if not df_incomplete_map.empty:
             df_incomplete_map.to_excel(writer, index=False, sheet_name="Incomplete mappings")
     print(f"\n Mapping issues saved to: {mapping_issues_file}")
