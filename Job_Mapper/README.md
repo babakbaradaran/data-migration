@@ -16,7 +16,7 @@ Key responsibilities included:
 
 Important: The phase codes, job numbers and mapping files used in this repository are fictional and for demonstration purposes only. I did not upload the main files used in the project due to their large size and proprietary nature.
 
-Result: The project was completed successfully, with all data migrated accurately and within the given timeframe. This Pythion Script improved the job transaction mapping process by 90% by reducing manual effort, increasing accuracy, and enhancing the overall efficiency of the data migration process.
+Result: The project was completed successfully, with all data migrated accurately and within the given timeframe. This Python Script improved the job transaction mapping process by 90% by reducing manual effort, increasing accuracy, and enhancing the overall efficiency of the data migration process.
 
 Scripts:
 - `job_mapper.py`: Handles mapping for two types of jobs: active jobs and balance forwarding jobs.
