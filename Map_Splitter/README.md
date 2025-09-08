@@ -60,7 +60,7 @@ The script scans the current folder for .xlsx files that:
 
 ## Notes
 
-- This version is based on anonymized data, safe for testing, training, and GitHub publishing.
+- This version is based on anonymized data.
 - It is especially useful for separating mapping logic per job in systems like ERP/Project Controls/Cost Management.
 
 ---
@@ -71,6 +71,7 @@ Make sure Python and dependencies are installed:
 
 ```bash
 pip install pandas openpyxl
+
 
 
 
